@@ -11,7 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.6
-  carousel_slider: ^4.0.0  # Ajoutez cette ligne pour inclure le package CarouselSlider
+  carousel_slider: ^4.0.0  # Si vous en avez besoin
+  font_awesome_flutter: ^10.1.0  # Ajoutez cette ligne pour FontAwesome avec null safety
+
 
 dev_dependencies:
   flutter_test:

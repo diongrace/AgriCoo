@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: '/welcome', // Changez cela selon la page d'accueil que vous souhaitez
+      initialRoute: '/splash', // Changez cela selon la page d'accueil que vous souhaitez
       routes: {
         '/splash': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),

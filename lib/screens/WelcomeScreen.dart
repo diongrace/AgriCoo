@@ -13,7 +13,7 @@ class WelcomeScreen extends StatelessWidget {
         child: Container(
           // Fond kaki clair
           decoration: const BoxDecoration(
-            color: Color.fromARGB(255, 248, 248, 246), // Couleur de fond
+            color: Color.fromARGB(255, 246, 248, 246), // Couleur de fond
           ),
           width: double.infinity, // Prend toute la largeur
           height: double.infinity, // Prend toute la hauteur

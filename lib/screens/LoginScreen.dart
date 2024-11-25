@@ -8,13 +8,19 @@ class LoginScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start, // Aligner vers le haut pour rapprocher le contenu
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/images/loogo.png', // Remplacez par le chemin de votre logo
-              height: 100,
+            const SizedBox(height: 100), // Ajouter un espace au-dessus du logo pour le faire descendre
+            // Logo agrandi avec bordure arrondie pour un effet visuel moderne
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: Image.asset(
+                'assets/images/loogo.png',
+                height: MediaQuery.of(context).size.height * 0.25, // Diminuer légèrement la taille du logo
+              ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 1), // Espacement sous le logo
             const Text(
               'Connexion',
               style: TextStyle(
@@ -23,7 +29,7 @@ class LoginScreen extends StatelessWidget {
                 color: Color(0xFF228B22), // Vert feuille
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 30), // Espacement avant les champs de texte
             TextField(
               decoration: InputDecoration(
                 hintText: 'Email',
@@ -37,7 +43,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15), // Espacement entre les champs de texte
             TextField(
               obscureText: true,
               decoration: InputDecoration(
@@ -52,13 +58,14 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 30), // Espacement plus petit avant le bouton
             ElevatedButton(
               onPressed: () {
-                // Navigation vers l'écran suivant
+                // Rediriger vers le DashboardScreen après la connexion réussie
+                Navigator.pushReplacementNamed(context, '/welcome');
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF228B22), // Vert feuille
+                backgroundColor: Color.fromARGB(210, 45, 152, 45), // Vert feuille
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50),
                 ),
@@ -66,7 +73,7 @@ class LoginScreen extends StatelessWidget {
               ),
               child: const Text('Connexion'),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10), // Réduire l'espace entre le bouton et le lien "Créer un compte"
             TextButton(
               onPressed: () {
                 // Navigation vers l'écran d'inscription
@@ -76,8 +83,8 @@ class LoginScreen extends StatelessWidget {
                 'Créer un compte',
                 style: TextStyle(
                   fontFamily: 'RobotoMono',
-                  fontSize: 16,
-                  color: Color(0xFF228B22), // Vert feuille
+                  fontSize: 22,
+                  color: Color.fromARGB(255, 25, 153, 25), // Vert feuille
                 ),
               ),
             ),
