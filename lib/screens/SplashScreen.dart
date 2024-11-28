@@ -9,32 +9,36 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<double> _fadeAnimation;
+  late Animation<double> _logoScaleAnimation; // Animation séparée pour le logo
 
   @override
   void initState() {
     super.initState();
-    // Création du contrôleur d'animation pour gérer le délai
     _controller = AnimationController(
       duration: const Duration(seconds: 2),
       vsync: this,
     );
 
-    // Animation d'agrandissement du logo et du texte
-    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
+    // Animation d'agrandissement du texte
+    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.2).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
 
-    // Animation de fondu (opacity) pour une transition douce
+    // Animation de fondu (opacity)
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeIn),
     );
 
-    // Démarre l'animation
+    // Animation séparée pour le logo
+    _logoScaleAnimation = Tween<double>(begin: 0.5, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.elasticOut),
+    );
+
     _controller.forward();
 
     // Naviguer vers la page suivante après 3 secondes
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/login'); // Modifiez la route si nécessaire
+      Navigator.pushReplacementNamed(context, '/login');
     });
   }
 
@@ -48,13 +52,12 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
-          // Dégradé de fond inspiré des couleurs naturelles
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xFF6DBE45), // Vert clair
-              Color(0xFF88C1A4), // Vert doux
-              Color(0xFF75B3A2), // Vert forêt
+              Color.fromARGB(255, 10, 233, 81), // Bleu foncé
+              Color.fromARGB(255, 55, 222, 94), // Bleu moyen
+              Color.fromARGB(255, 28, 185, 104), // Bleu plus clair
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -74,16 +77,16 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     return Transform.scale(
                       scale: _scaleAnimation.value,
                       child: Text(
-                        'Welcome',  // Texte du titre
+                        'Welcome', 
                         style: TextStyle(
-                          fontFamily: 'RobotoMono',  // Police moderne
+                          fontFamily: 'RobotoMono',
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF2E8B57),  // Vert forêt
+                          color: Colors.white,  // Couleur du texte blanc
                           shadows: [
                             Shadow(
                               offset: Offset(2.0, 2.0),
-                              blurRadius: 3.0,
+                              blurRadius: 5.0,
                               color: Colors.black.withOpacity(0.3),
                             ),
                           ],
@@ -94,41 +97,47 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                 ),
               ),
               
-              const SizedBox(height: 20),  // Un petit espace entre le texte et le logo
+              const SizedBox(height: 20),
 
-              // Animation du logo avec fondu et agrandissement
+              // Animation du logo
               FadeTransition(
                 opacity: _fadeAnimation,
                 child: AnimatedBuilder(
-                  animation: _scaleAnimation,
+                  animation: _logoScaleAnimation,
                   builder: (context, child) {
                     return Transform.scale(
-                      scale: _scaleAnimation.value,
-                      child: Image.asset(
-                        'assets/images/loogo.png', // Assurez-vous que le chemin du logo est correct
-                        height: 250,  // Taille du logo
-                        width: 250,
-                        fit: BoxFit.contain,
+                      scale: _logoScaleAnimation.value,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2), // Fond autour du logo
+                          shape: BoxShape.circle,
+                        ),
+                        child: Image.asset(
+                          'assets/images/loogo.png', // Assurez-vous que le chemin du logo est correct
+                          height: 250,
+                          width: 250,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     );
                   },
                 ),
               ),
 
-              const SizedBox(height: 20),  // Un petit espace entre le logo et l'icône de chargement
+              const SizedBox(height: 20), 
 
-              // Icône de chargement animée (rotation fluide avec mise à l'échelle)
+              // Icône de chargement
               FadeTransition(
                 opacity: _fadeAnimation,
                 child: AnimatedBuilder(
-                  animation: _scaleAnimation,
+                  animation: _controller,
                   builder: (context, child) {
                     return Transform.scale(
                       scale: _scaleAnimation.value,
                       child: Transform.rotate(
                         angle: _controller.value * 2.0 * 3.1415927, // Rotation continue
                         child: Image.asset(
-                          'assets/images/load.png',  // Icône de chargement à animer
+                          'assets/images/load.png', // Icône de chargement à animer
                           height: 100,
                           width: 100,
                           fit: BoxFit.contain,

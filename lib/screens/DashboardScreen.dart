@@ -4,33 +4,54 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1, // Légère ombre pour l'AppBar
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Logo à gauche
-            Image.asset(
-              'assets/images/loogo.png',
-              width: 120,
-              fit: BoxFit.contain,
-            ),
-            // Profil à droite
-            CircleAvatar(
-              radius: 25,
-              backgroundColor: Colors.green.shade400,
-              child: Icon(
-                Icons.person,
-                color: Colors.white,
-                size: 28,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(160), // Taille de l'AppBar, augmentée pour mieux voir l'arc
+        child: ClipPath(
+          clipper: ArcClipper(),
+          child: Container(
+            color: Colors.green.shade600, // Couleur de l'AppBar
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Logo à gauche
+                    Container(
+                      height: screenHeight * 0.08,
+                      width: screenHeight * 0.08,
+                      child: Image.asset(
+                        'assets/images/loogo.png',
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    // Profil à droite
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/profile');
+                      },
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.white,
+                        child: const Icon(
+                          Icons.person,
+                          color: Colors.green,
+                          size: 26,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ],
+          ),
         ),
       ),
       body: Container(
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -41,7 +62,6 @@ class DashboardScreen extends StatelessWidget {
             end: Alignment.bottomCenter,
           ),
         ),
-        padding: const EdgeInsets.all(16),
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -53,7 +73,6 @@ class DashboardScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                // Navigation logique
                 _navigateToPage(context, index);
               },
               child: AnimatedContainer(
@@ -61,7 +80,7 @@ class DashboardScreen extends StatelessWidget {
                 curve: Curves.easeInOut,
                 decoration: BoxDecoration(
                   color: Colors.green.shade400,
-                  borderRadius: BorderRadius.circular(16),
+                  shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.green.shade300.withOpacity(0.6),
@@ -73,11 +92,19 @@ class DashboardScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Icône
-                    Icon(
-                      _getIconForIndex(index),
-                      size: 40,
-                      color: Colors.white,
+                    // Icône dans un cercle
+                    Container(
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                      child: Icon(
+                        _getIconForIndex(index),
+                        size: 30,
+                        color: Colors.green,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     // Titre
@@ -168,5 +195,24 @@ class DashboardScreen extends StatelessWidget {
       case 9: return FontAwesomeIcons.briefcase;
       default: return Icons.help_outline;
     }
+  }
+}
+
+// ArcClipper pour l'effet d'arc
+class ArcClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, 0); // Début du path en haut à gauche
+    path.lineTo(0, size.height - 30); // Descendre jusqu'à 30 pixels du bas
+    path.quadraticBezierTo(size.width / 2, size.height, size.width, size.height - 30); // Courbe d'arc
+    path.lineTo(size.width, 0); // Arrivée en haut à droite
+    path.close(); // Fermer le path
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
   }
 }

@@ -5,12 +5,14 @@ import 'DashboardScreen.dart';
 class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // Obtenir les dimensions de l'écran
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: SafeArea(
         child: Container(
+          // Décoration du fond avec un dégradé
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -27,11 +29,30 @@ class WelcomeScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Stack(
               children: [
+                // Logo positionné dans le coin supérieur droit avec un espace de 5 pixels
+                Positioned(
+                  top: -50, // Décalage de 5 pixels du haut
+                  right: -60, // Décalage de 5 pixels de la droite
+                  child: Container(
+                    // Agrandir le logo
+                    height: screenHeight * 0.20, // 20% de la hauteur de l'écran
+                    width: screenHeight * 0.20, // Largeur égale à la hauteur pour maintenir les proportions
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/loogo.png'), // Chemin vers le logo
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Contenu principal (titre, carousel, slogan, bouton)
                 SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 10),
+                      // Espace de 90 pixels pour ne pas chevaucher le logo
+                      const SizedBox(height: 90), // Augmenter l'espace pour laisser de la place au logo
 
                       // Titre
                       const Text(
@@ -45,7 +66,7 @@ class WelcomeScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
 
-                      // Carousel
+                      // Carousel d'images
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
@@ -97,7 +118,7 @@ class WelcomeScreen extends StatelessWidget {
 
                       const SizedBox(height: 20),
 
-                      // Slogan
+                      // Slogan avec une image et du texte
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -142,7 +163,7 @@ class WelcomeScreen extends StatelessWidget {
 
                       const SizedBox(height: 40),
 
-                      // Bouton
+                      // Bouton pour accéder au Dashboard
                       ElevatedButton(
                         onPressed: () {
                           Navigator.push(
@@ -173,22 +194,6 @@ class WelcomeScreen extends StatelessWidget {
                         ),
                       ),
                     ],
-                  ),
-                ),
-
-                // Logo MPN au-dessus du titre
-                Positioned(
-                  top: 0, // Logo placé tout en haut
-                  left: screenWidth * 0.75, // Ajustez la position horizontale si nécessaire
-                  child: Container(
-                    height: 80, // Taille du logo
-                    width: 80,  // Taille du logo
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/logo.png'), // Mettez le chemin de votre logo ici
-                        fit: BoxFit.contain, // Le logo s'adapte à la taille du container
-                      ),
-                    ),
                   ),
                 ),
               ],

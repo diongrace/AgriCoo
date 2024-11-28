@@ -1,5 +1,5 @@
-name: flutter_application_1
-description: A new Flutter project.
+name: AgriCoo
+description: Coopérative Agricole.
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -10,10 +10,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^1.2.2  # Mettez à jour cette ligne à la version plus récente
   cupertino_icons: ^1.0.6
-  carousel_slider: ^4.0.0  # Si vous en avez besoin
-  font_awesome_flutter: ^10.1.0  # Ajoutez cette ligne pour FontAwesome avec null safety
-
+  carousel_slider: ^4.0.0
+  font_awesome_flutter: ^10.1.0
 
 dev_dependencies:
   flutter_test:
@@ -24,4 +24,4 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/  # Vous pouvez toujours ajouter des images à votre projet ici
+    - assets/images/
